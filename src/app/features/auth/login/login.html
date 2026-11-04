@@ -1,0 +1,55 @@
+<div class="login">
+
+  <div class="login__card">
+
+    <h1>Welcome Back</h1>
+
+    <p>Login to your CampusCart account.</p>
+
+    <form (ngSubmit)="login()">
+
+      <div class="login__field">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          name="username"
+          [(ngModel)]="username"
+          required
+        >
+      </div>
+
+      <div class="login__field">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+        >
+      </div>
+
+      @if (errorMessage) {
+        <p class="login__error">{{ errorMessage }}</p>
+      }
+
+      <button type="submit">Login</button>
+
+    </form>
+
+    <p class="login__signup">
+      Don't have an account?
+      <a routerLink="/signup">Create one</a>
+    </p>
+
+    <div class="login__demo">
+      <p>Demo accounts:</p>
+      <p>Admin: admin / Admin123</p>
+      <p>Accountant: accountant / Account123</p>
+      <p>Student: student / Student123</p>
+    </div>
+
+  </div>
+
+</div>

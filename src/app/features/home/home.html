@@ -1,0 +1,91 @@
+<main class="home">
+
+  <section class="home__hero">
+
+  @if (auth.isLoggedIn()) {
+
+    <p class="home__label">WELCOME BACK</p>
+
+    <h1>Welcome to CampusCart!</h1>
+
+    <p class="home__description">
+      Manage your university services and explore everything CampusCart offers.
+    </p>
+
+    <div class="home__actions">
+
+      <a routerLink="/profile" class="home__button home__button--primary">
+        View Profile
+      </a>
+
+    </div>
+
+  } @else {
+
+    <p class="home__label">WELCOME TO CAMPUSCART</p>
+
+    <h1>University Finance & Campus Store, All in One Place</h1>
+
+    <p class="home__description">
+      Manage university payments, staff payroll, department budgets,
+      and shop for essential university products through one simple platform.
+    </p>
+
+    <div class="home__actions">
+
+      <a routerLink="/login" class="home__button home__button--primary">
+        Login
+      </a>
+
+      <a routerLink="/signup" class="home__button home__button--secondary">
+        Create Account
+      </a>
+
+    </div>
+
+  }
+
+</section>
+  <section class="home__features">
+
+    <h2>What Can You Do With CampusCart?</h2>
+
+    <div class="home__grid">
+
+      <article class="home__card">
+        <h3>Staff Payroll</h3>
+        <p>
+          Manage employee salaries, allowances, deductions,
+          and monthly salary reports.
+        </p>
+      </article>
+
+      <article class="home__card">
+        <h3>Department Budgets</h3>
+        <p>
+          Monitor department income, expenses,
+          and financial summaries.
+        </p>
+      </article>
+
+      <article class="home__card">
+        <h3>Student Fees</h3>
+        <p>
+          View tuition invoices, make payments,
+          and track payment history.
+        </p>
+      </article>
+
+      <article class="home__card">
+        <h3>Campus Store</h3>
+        <p>
+          Browse textbooks, lab coats, and university merchandise
+          through the online store.
+        </p>
+      </article>
+
+    </div>
+
+  </section>
+
+</main>

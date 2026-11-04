@@ -1,0 +1,36 @@
+<nav class="navbar">
+
+  <a routerLink="/" class="navbar__brand">
+    CampusCart
+  </a>
+
+  <div class="navbar__links">
+
+    <a routerLink="/">Home</a>
+
+    @if (auth.isLoggedIn()) {
+
+      <a routerLink="/profile">Profile</a>
+
+      @if (auth.hasRole(['admin', 'accountant'])) {
+        <a routerLink="/payroll">Payroll</a>
+        <a routerLink="/budget">Budget</a>
+      }
+
+      @if (auth.hasRole(['admin', 'student'])) {
+        <a routerLink="/store">Store</a>
+        <a routerLink="/student-fees">Student Fees</a>
+      }
+
+      <button (click)="logout()">Logout</button>
+
+    } @else {
+
+      <a routerLink="/login">Login</a>
+      <a routerLink="/signup">Sign Up</a>
+
+    }
+
+  </div>
+
+</nav>

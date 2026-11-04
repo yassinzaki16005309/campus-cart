@@ -1,0 +1,60 @@
+<div class="profile">
+
+  @if (auth.currentUser(); as user) {
+
+    <div class="profile__card">
+
+      <h1>My Profile</h1>
+
+      @if (user.pictureUrl) {
+        <img
+          class="profile__picture"
+          [src]="user.pictureUrl"
+          alt="Profile picture"
+        >
+      } @else {
+        <div class="profile__placeholder">
+          {{ user.fullName.charAt(0).toUpperCase() }}
+        </div>
+      }
+
+      <div class="profile__details">
+
+        <div class="profile__item">
+          <strong>Full Name</strong>
+          <span>{{ user.fullName }}</span>
+        </div>
+
+        <div class="profile__item">
+          <strong>Username</strong>
+          <span>{{ user.username }}</span>
+        </div>
+
+        <div class="profile__item">
+          <strong>Email</strong>
+          <span>{{ user.email }}</span>
+        </div>
+
+        <div class="profile__item">
+          <strong>Role</strong>
+          <span>{{ user.role }}</span>
+        </div>
+
+        <div class="profile__item">
+          <strong>Preferences</strong>
+
+          @if (user.preferences.length > 0) {
+            <span>{{ user.preferences.join(', ') }}</span>
+          } @else {
+            <span>No preferences selected</span>
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

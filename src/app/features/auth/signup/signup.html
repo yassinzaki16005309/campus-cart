@@ -1,0 +1,125 @@
+<div class="signup">
+
+  <div class="signup__card">
+
+    <h1>Create Your Account</h1>
+
+    <p>Join CampusCart today.</p>
+
+    <form (ngSubmit)="signup()">
+
+      <div class="signup__field">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          name="username"
+          [(ngModel)]="username"
+          required
+        >
+      </div>
+
+      <div class="signup__field">
+        <label for="fullName">Full Name</label>
+        <input
+          id="fullName"
+          type="text"
+          name="fullName"
+          [(ngModel)]="fullName"
+          required
+        >
+      </div>
+
+      <div class="signup__field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          [(ngModel)]="email"
+          required
+        >
+      </div>
+
+      <div class="signup__field">
+        <label for="pictureUrl">Profile Picture URL</label>
+        <input
+          id="pictureUrl"
+          type="url"
+          name="pictureUrl"
+          [(ngModel)]="pictureUrl"
+        >
+      </div>
+
+      <div class="signup__field">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+        >
+      </div>
+
+      <div class="signup__field">
+        <label for="creditCard">Credit Card (Demo Only)</label>
+        <input
+          id="creditCard"
+          type="text"
+          name="creditCard"
+          [(ngModel)]="creditCard"
+          placeholder="Enter demo card information"
+        >
+        <small>Do not enter real payment card details.</small>
+      </div>
+
+      <div class="signup__preferences">
+
+        <p>Preferences</p>
+
+        <label>
+          <input
+            type="checkbox"
+            [checked]="preferences.includes('Textbooks')"
+            (change)="togglePreference('Textbooks')"
+          >
+          Textbooks
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            [checked]="preferences.includes('Lab Coats')"
+            (change)="togglePreference('Lab Coats')"
+          >
+          Lab Coats
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            [checked]="preferences.includes('University Merchandise')"
+            (change)="togglePreference('University Merchandise')"
+          >
+          University Merchandise
+        </label>
+
+      </div>
+
+      @if (errorMessage) {
+        <p class="signup__error">{{ errorMessage }}</p>
+      }
+
+      <button type="submit">Create Account</button>
+
+    </form>
+
+    <p class="signup__login">
+      Already have an account?
+      <a routerLink="/login">Login</a>
+    </p>
+
+  </div>
+
+</div>
