@@ -1,0 +1,134 @@
+.payroll {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+}
+
+.payroll__title {
+  margin-bottom: 1rem;
+}
+
+.payroll__table-wrapper {
+  overflow-x: auto;
+}
+
+.payroll__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.payroll__table th,
+.payroll__table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.payroll__table th {
+  background: #f3f4f6;
+}
+
+.payroll__net {
+  font-weight: bold;
+}
+
+.payroll__form,
+.payroll__report {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.payroll__form h2,
+.payroll__report h2,
+.payroll__error,
+.payroll__actions,
+.payroll__json {
+  grid-column: 1 / -1;
+}
+
+.payroll label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-weight: 500;
+}
+
+.payroll input {
+  padding: 0.5rem;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+}
+
+.payroll__actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.payroll__btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #888;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.payroll__btn--primary {
+  background: #1f4e8c;
+  border-color: #1f4e8c;
+  color: #fff;
+}
+
+.payroll__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.payroll__error {
+  color: #b00020;
+  margin: 0;
+}
+
+.payroll__json {
+  background: #111;
+  color: #e6e6e6;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  max-height: 400px;
+}
+
+/* Mobile: turn each table row into a card */
+@media (max-width: 700px) {
+  .payroll__table thead {
+    display: none;
+  }
+
+  .payroll__table,
+  .payroll__table tbody,
+  .payroll__table tr,
+  .payroll__table td {
+    display: block;
+    width: 100%;
+  }
+
+  .payroll__table tr {
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+  }
+
+  .payroll__table td {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+  }
+
+  .payroll__table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+  }
+}
