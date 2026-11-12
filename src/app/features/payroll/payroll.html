@@ -1,1 +1,93 @@
-<p>payroll works!</p>
+<section class="payroll">
+  <h1 class="payroll__title">Staff Payroll</h1>
+
+  <!-- A. Employee payroll table -->
+  <div class="payroll__table-wrapper">
+    <table class="payroll__table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Department</th>
+          <th>Base Salary</th>
+          <th>Allowances</th>
+          <th>Deductions</th>
+          <th>Net Salary</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (emp of employees(); track emp.id) {
+          <tr>
+            <td data-label="Name">{{ emp.fullName }}</td>
+            <td data-label="Department">{{ emp.department }}</td>
+            <td data-label="Base Salary">{{ emp.baseSalary | number: '1.2-2' }}</td>
+            <td data-label="Allowances">{{ emp.allowances | number: '1.2-2' }}</td>
+            <td data-label="Deductions">{{ emp.deductions | number: '1.2-2' }}</td>
+            <td data-label="Net Salary" class="payroll__net">{{ getNetSalary(emp) | number: '1.2-2' }}</td>
+            <td data-label="Action">
+              <button type="button" class="payroll__btn" (click)="startEdit(emp)">Edit</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="7">No employees yet.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- B. Add / edit form -->
+  <form class="payroll__form" (ngSubmit)="saveEmployee()">
+    <h2>{{ editingId() === null ? 'Add Employee' : 'Edit Employee' }}</h2>
+
+    <label>Full name
+      <input type="text" name="fullName" [(ngModel)]="formName" />
+    </label>
+    <label>Department
+      <input type="text" name="department" [(ngModel)]="formDepartment" />
+    </label>
+    <label>Base salary
+      <input type="number" name="baseSalary" min="0" [(ngModel)]="formBaseSalary" />
+    </label>
+    <label>Allowances
+      <input type="number" name="allowances" min="0" [(ngModel)]="formAllowances" />
+    </label>
+    <label>Deductions
+      <input type="number" name="deductions" min="0" [(ngModel)]="formDeductions" />
+    </label>
+
+    @if (errorMessage()) {
+      <p class="payroll__error">{{ errorMessage() }}</p>
+    }
+
+    <div class="payroll__actions">
+      <button type="submit" class="payroll__btn payroll__btn--primary">
+        {{ editingId() === null ? 'Add Employee' : 'Save Changes' }}
+      </button>
+      @if (editingId() !== null) {
+        <button type="button" class="payroll__btn" (click)="resetForm()">Cancel</button>
+      }
+    </div>
+  </form>
+
+  <!-- C. Monthly JSON report -->
+  <section class="payroll__report">
+    <h2>Monthly Salary Report</h2>
+    <label>Month
+      <input type="month" name="month" [(ngModel)]="selectedMonth" />
+    </label>
+    <div class="payroll__actions">
+      <button type="button" class="payroll__btn payroll__btn--primary"
+              [disabled]="!selectedMonth" (click)="generateReport()">
+        Generate Report
+      </button>
+      <button type="button" class="payroll__btn"
+              [disabled]="!selectedMonth" (click)="downloadReport()">
+        Download JSON
+      </button>
+    </div>
+
+    @if (reportJson()) {
+      <pre class="payroll__json">{{ reportJson() }}</pre>
+    }
+  </section>
+</section>
