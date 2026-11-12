@@ -1,1 +1,53 @@
-<p>budget works!</p>
+<h1>Department Budget</h1>
+
+<label for="department">Department</label>
+<select id="department" [(ngModel)]="selectedDepartment">
+  @for (d of departments; track d) {
+    <option [value]="d">{{ d }}</option>
+  }
+</select>
+
+<p>Total income: {{ totalIncome() }}</p>
+<p>Total expenses: {{ totalExpenses() }}</p>
+<p>Balance: {{ balance() }}</p>
+
+<h2>Income vs Expenses</h2>
+<div class="charts">
+  <div class="chart">
+    <canvas baseChart [data]="barChartData()" type="bar"></canvas>
+  </div>
+  <div class="chart">
+    <canvas baseChart [data]="doughnutChartData()" type="doughnut"></canvas>
+  </div>
+</div>
+
+<h2>Add a transaction to {{ selectedDepartment() }}</h2>
+
+<label for="type">Type</label>
+<select id="type" [(ngModel)]="newType">
+  <option value="income">Income</option>
+  <option value="expense">Expense</option>
+</select>
+
+<label for="amount">Amount</label>
+<input id="amount" type="number" min="0" [(ngModel)]="newAmount" />
+
+<label for="date">Date</label>
+<input id="date" type="date" [(ngModel)]="newDate" />
+
+<label for="description">Description</label>
+<input id="description" type="text" [(ngModel)]="newDescription" />
+
+<button type="button" (click)="addTransaction()">Add</button>
+
+@if (errorMessage()) {
+  <p>{{ errorMessage() }}</p>
+}
+
+<h2>Transactions</h2>
+<ul>
+  @for (t of departmentTransactions(); track t.id) {
+    <li>{{ t.date }} | {{ t.description }} | {{ t.type }} | {{ t.amount }}</li>
+    <button type="button" (click)="deleteTransaction(t.id)">Delete</button>
+  }
+</ul>
