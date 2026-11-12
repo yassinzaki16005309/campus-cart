@@ -1,1 +1,60 @@
-<p>student-fees works!</p>
+<section class="fees">
+  <h1 class="fees__title">Student Fees</h1>
+
+  @if (message()) {
+    <p class="fees__message">{{ message() }}</p>
+  }
+
+  <form class="fees__form" (ngSubmit)="createInvoice()">
+    @if (isAdmin()) {
+      <input class="fees__student" type="number" placeholder="Student ID"
+             [ngModel]="newStudentId()" (ngModelChange)="newStudentId.set($event)" name="student" />
+    }
+    <input class="fees__description" type="text" placeholder="Description"
+           [ngModel]="newDescription()" (ngModelChange)="newDescription.set($event)" name="description" />
+    <input class="fees__amount" type="number" placeholder="Amount (EGP)"
+           [ngModel]="newAmount()" (ngModelChange)="newAmount.set($event)" name="amount" />
+    <input class="fees__due" type="date"
+           [ngModel]="newDueDate()" (ngModelChange)="newDueDate.set($event)" name="due" />
+    <button class="fees__create" type="submit">Create invoice</button>
+  </form>
+
+  <div class="fees__toolbar">
+    <label>Show:
+      <select class="fees__filter" [ngModel]="filter()" (ngModelChange)="filter.set($event)">
+        <option value="all">All (history)</option>
+        <option value="unpaid">Unpaid</option>
+        <option value="paid">Paid</option>
+      </select>
+    </label>
+    <strong class="fees__unpaid-total">Unpaid total: {{ totalUnpaid() | number: '1.2-2' }} EGP</strong>
+  </div>
+
+  <div class="fees__table-wrap">
+    <table class="fees__table">
+      <thead>
+        <tr><th>#</th><th>Student</th><th>Description</th><th>Amount</th><th>Issued</th><th>Due</th><th>Status</th><th></th></tr>
+      </thead>
+      <tbody>
+        @for (inv of visibleInvoices(); track inv.id) {
+          <tr class="invoice-row">
+            <td>{{ inv.id }}</td>
+            <td>{{ inv.studentId }}</td>
+            <td>{{ inv.description }}</td>
+            <td>{{ inv.amount | number: '1.2-2' }}</td>
+            <td>{{ inv.issueDate }}</td>
+            <td>{{ inv.dueDate }}</td>
+            <td class="invoice-row__status">{{ inv.status }}</td>
+            <td>
+              @if (inv.status === 'unpaid') {
+                <button class="invoice-row__pay" (click)="markPaid(inv)">Mark paid</button>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="8" class="fees__empty">No invoices to show.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

@@ -1,1 +1,42 @@
-<p>store works!</p>
+<section class="store">
+  <h1 class="store__title">Campus Store</h1>
+
+  @if (message()) {
+    <p class="store__message">{{ message() }}</p>
+  }
+
+  <div class="store__layout">
+    <div class="store__products">
+      @for (p of products; track p.id) {
+        <article class="product">
+          <h3 class="product__name">{{ p.name }}</h3>
+          <p class="product__desc">{{ p.description }}</p>
+          <p class="product__price">{{ p.price | number: '1.2-2' }} EGP</p>
+          <p class="product__stock">In stock: {{ p.stock }}</p>
+          <button class="product__add" (click)="addToCart(p)" [disabled]="p.stock === 0">
+            Add to cart
+          </button>
+        </article>
+      }
+    </div>
+
+    <aside class="cart">
+      <h2 class="cart__title">Your cart</h2>
+      @if (cart().length === 0) {
+        <p class="cart__empty">Your cart is empty.</p>
+      }
+      @for (item of cart(); track item.product.id) {
+        <div class="cart__item">
+          <span>{{ item.quantity }} x {{ item.product.name }}</span>
+          <button class="cart__remove" (click)="removeFromCart(item.product.id)">Remove</button>
+        </div>
+      }
+      <p class="cart__total">Total: <strong>{{ total() | number: '1.2-2' }} EGP</strong></p>
+      <button class="cart__pay-now" (click)="payNow()" [disabled]="cart().length === 0">Pay now</button>
+      <button class="cart__add-invoice" (click)="addToInvoice()" [disabled]="cart().length === 0">
+        Add to my invoice
+      </button>
+      <button class="cart__clear" (click)="clearCart()" [disabled]="cart().length === 0">Clear cart</button>
+    </aside>
+  </div>
+</section>

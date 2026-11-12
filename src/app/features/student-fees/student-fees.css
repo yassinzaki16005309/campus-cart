@@ -1,0 +1,10 @@
+.fees { max-width: 1100px; margin: 0 auto; padding: 1rem; }
+.fees__message { background: #e8f5ee; border: 1px solid #2e9e6b; padding: .6rem 1rem; border-radius: 6px; }
+.fees__form { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 1rem; }
+.fees__form input, .fees__filter { padding: .5rem; border: 1px solid #bbb; border-radius: 6px; }
+.fees__toolbar { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; margin-bottom: .5rem; }
+.fees__table-wrap { overflow-x: auto; }
+.fees__table { width: 100%; border-collapse: collapse; min-width: 600px; }
+.fees__table th, .fees__table td { border-bottom: 1px solid #ddd; padding: .5rem; text-align: left; }
+button { cursor: pointer; padding: .5rem .8rem; border-radius: 6px; border: 1px solid #2e9e6b; background: #2e9e6b; color: #fff; }
+@media (max-width: 600px) { .fees__form { flex-direction: column; } }
