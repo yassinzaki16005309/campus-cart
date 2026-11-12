@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Transaction, TransactionType } from '../../core/models/transaction.model'; 
 import { Storage } from '../../core/services/storage';
@@ -9,7 +10,7 @@ const STORAGE_KEY = 'campusCartTransactions';
 
 @Component({
   selector: 'app-budget',
-  imports: [FormsModule, BaseChartDirective],
+  imports: [FormsModule, BaseChartDirective, DecimalPipe],
   providers: [provideCharts(withDefaultRegisterables())],
   templateUrl: './budget.html',
   styleUrl: './budget.css',

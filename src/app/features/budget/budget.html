@@ -1,53 +1,194 @@
-<h1>Department Budget</h1>
 
-<label for="department">Department</label>
-<select id="department" [(ngModel)]="selectedDepartment">
-  @for (d of departments; track d) {
-    <option [value]="d">{{ d }}</option>
-  }
-</select>
+<div class="budget">
 
-<p>Total income: {{ totalIncome() }}</p>
-<p>Total expenses: {{ totalExpenses() }}</p>
-<p>Balance: {{ balance() }}</p>
+  <!-- Page header -->
+  <header class="budget__header">
+    <div>
+      <h1 class="budget__title">Department Budget</h1>
+      <p class="budget__subtitle">
+        Monitor department income, expenses and financial activity.
+      </p>
+    </div>
 
-<h2>Income vs Expenses</h2>
-<div class="charts">
-  <div class="chart">
-    <canvas baseChart [data]="barChartData()" type="bar"></canvas>
-  </div>
-  <div class="chart">
-    <canvas baseChart [data]="doughnutChartData()" type="doughnut"></canvas>
-  </div>
+    <div class="budget__department">
+      <label for="department">Department</label>
+      <select id="department" [(ngModel)]="selectedDepartment">
+        @for (d of departments; track d) {
+          <option [value]="d">{{ d }}</option>
+        }
+      </select>
+    </div>
+  </header>
+
+  <!-- Financial summary -->
+  <section class="budget__summary">
+
+    <div class="budget__card budget__card--income">
+      <p class="budget__card-label">Total Income</p>
+      <h2>{{ totalIncome() | number }}</h2>
+      <span>Money received</span>
+    </div>
+
+    <div class="budget__card budget__card--expenses">
+      <p class="budget__card-label">Total Expenses</p>
+      <h2>{{ totalExpenses() | number }}</h2>
+      <span>Money spent</span>
+    </div>
+
+    <div class="budget__card budget__card--balance">
+      <p class="budget__card-label">Current Balance</p>
+      <h2>{{ balance() | number }}</h2>
+      <span>Remaining budget</span>
+    </div>
+
+  </section>
+
+  <!-- Charts -->
+  <section class="budget__section">
+    <div class="budget__section-header">
+      <h2>Financial Overview</h2>
+      <p>Income compared to expenses for {{ selectedDepartment() }}</p>
+    </div>
+
+    <div class="budget__charts">
+
+      <div class="budget__chart-card">
+        <h3>Income vs Expenses</h3>
+        <div class="budget__chart">
+          <canvas baseChart [data]="barChartData()" type="bar"></canvas>
+        </div>
+      </div>
+
+      <div class="budget__chart-card">
+        <h3>Financial Distribution</h3>
+        <div class="budget__chart">
+          <canvas baseChart [data]="doughnutChartData()" type="doughnut"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Add transaction -->
+  <section class="budget__section">
+    <div class="budget__section-header">
+      <h2>Add Transaction</h2>
+      <p>Record a new income or expense for {{ selectedDepartment() }}.</p>
+    </div>
+
+    <div class="budget__form-card">
+
+      <div class="budget__form">
+
+        <div class="budget__field">
+          <label for="type">Transaction Type</label>
+          <select id="type" [(ngModel)]="newType">
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+
+        <div class="budget__field">
+          <label for="amount">Amount</label>
+          <input
+            id="amount"
+            type="number"
+            min="0"
+            placeholder="Enter amount"
+            [(ngModel)]="newAmount"
+          />
+        </div>
+
+        <div class="budget__field">
+          <label for="date">Date</label>
+          <input id="date" type="date" [(ngModel)]="newDate" />
+        </div>
+
+        <div class="budget__field budget__field--description">
+          <label for="description">Description</label>
+          <input
+            id="description"
+            type="text"
+            placeholder="Enter transaction description"
+            [(ngModel)]="newDescription"
+          />
+        </div>
+
+      </div>
+
+      @if (errorMessage()) {
+        <p class="budget__error">{{ errorMessage() }}</p>
+      }
+
+      <button
+        class="budget__add-button"
+        type="button"
+        (click)="addTransaction()"
+      >
+        + Add Transaction
+      </button>
+
+    </div>
+  </section>
+
+  <!-- Transaction history -->
+  <section class="budget__section">
+    <div class="budget__section-header">
+      <h2>Transaction History</h2>
+      <p>All recorded transactions for {{ selectedDepartment() }}.</p>
+    </div>
+
+    <div class="budget__table-card">
+
+      @if (departmentTransactions().length > 0) {
+        <div class="budget__table-wrapper">
+          <table class="budget__table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (t of departmentTransactions(); track t.id) {
+                <tr>
+                  <td>{{ t.date }}</td>
+                  <td>{{ t.description }}</td>
+                  <td>
+                    <span
+                      class="budget__type"
+                      [class.budget__type--income]="t.type === 'income'"
+                      [class.budget__type--expense]="t.type === 'expense'"
+                    >
+                      {{ t.type }}
+                    </span>
+                  </td>
+                  <td class="budget__amount">{{ t.amount | number }}</td>
+                  <td>
+                    <button
+                      class="budget__delete-button"
+                      type="button"
+                      (click)="deleteTransaction(t.id)"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="budget__empty">
+          No transactions found for this department.
+        </div>
+      }
+
+    </div>
+  </section>
+
 </div>
-
-<h2>Add a transaction to {{ selectedDepartment() }}</h2>
-
-<label for="type">Type</label>
-<select id="type" [(ngModel)]="newType">
-  <option value="income">Income</option>
-  <option value="expense">Expense</option>
-</select>
-
-<label for="amount">Amount</label>
-<input id="amount" type="number" min="0" [(ngModel)]="newAmount" />
-
-<label for="date">Date</label>
-<input id="date" type="date" [(ngModel)]="newDate" />
-
-<label for="description">Description</label>
-<input id="description" type="text" [(ngModel)]="newDescription" />
-
-<button type="button" (click)="addTransaction()">Add</button>
-
-@if (errorMessage()) {
-  <p>{{ errorMessage() }}</p>
-}
-
-<h2>Transactions</h2>
-<ul>
-  @for (t of departmentTransactions(); track t.id) {
-    <li>{{ t.date }} | {{ t.description }} | {{ t.type }} | {{ t.amount }}</li>
-    <button type="button" (click)="deleteTransaction(t.id)">Delete</button>
-  }
-</ul>
