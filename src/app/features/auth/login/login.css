@@ -72,3 +72,15 @@
   border-radius: 6px;
   font-size: 13px;
 }
+.login__remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+}
+
+.login__remember input {
+  width: auto;
+  margin: 0;
+}

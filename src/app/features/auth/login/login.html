@@ -30,6 +30,16 @@
         >
       </div>
 
+      <div class="login__remember">
+        <input
+          id="rememberMe"
+          type="checkbox"
+          name="rememberMe"
+          [(ngModel)]="rememberMe"
+        >
+        <label for="rememberMe">Remember my username</label>
+      </div>
+
       @if (errorMessage) {
         <p class="login__error">{{ errorMessage }}</p>
       }
