@@ -54,13 +54,14 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/store/store').then(m => m.Store)
   },
-  {
-    path: 'student-fees',
-    canActivate: [roleGuard],
-    data: { roles: ['admin', 'student'] },
-    loadComponent: () =>
-      import('./features/student-fees/student-fees').then(m => m.StudentFees)
-  },
+ {
+  path: 'student-fees',
+  canActivate: [roleGuard],
+  data: { roles: ['admin', 'accountant', 'student'] },
+  loadComponent: () =>
+    import('./features/student-fees/student-fees')
+      .then(m => m.StudentFees)
+},
 
   // Unknown URL
   {

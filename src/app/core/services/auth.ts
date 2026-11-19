@@ -8,13 +8,10 @@ import { Storage } from './storage';
 })
 export class Auth {
 
-  // Current logged-in user
   private currentUserSignal = signal<User | null>(null);
 
-  // Public read-only access to the current user
   currentUser = this.currentUserSignal.asReadonly();
 
-  // Automatically checks whether someone is logged in
   isLoggedIn = computed(() => this.currentUserSignal() !== null);
 
   // Demo accounts for Milestone 1
@@ -60,7 +57,7 @@ export class Auth {
     }
   ];
 
-  // Accounts registered during the current app session
+  // Registered accounts
   private registeredAccounts: {
     username: string;
     password: string;
@@ -70,7 +67,23 @@ export class Auth {
   private nextUserId = 4;
 
   constructor(private storage: Storage) {
-    // Restore the previous session if one exists
+
+    // Load registered accounts from localStorage
+    this.registeredAccounts =
+      this.storage.getLocal<typeof this.registeredAccounts>(
+        'campusCartRegisteredAccounts'
+      ) ?? [];
+
+    // Restore the next available user ID
+    if (this.registeredAccounts.length > 0) {
+      const highestId = Math.max(
+        ...this.registeredAccounts.map(account => account.user.id)
+      );
+
+      this.nextUserId = Math.max(4, highestId + 1);
+    }
+
+    // Restore the previous session
     const savedUser = this.storage.getSession<User>('campusCartUser');
 
     if (savedUser) {
@@ -126,6 +139,12 @@ export class Auth {
       password: password,
       user: newUser
     });
+
+    // Save registered accounts permanently in localStorage
+    this.storage.setLocal(
+      'campusCartRegisteredAccounts',
+      this.registeredAccounts
+    );
 
     this.startSession(newUser);
     return true;

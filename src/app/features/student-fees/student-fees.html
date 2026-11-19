@@ -1,1 +1,158 @@
-<p>student-fees works!</p>
+
+<div class="fees-container">
+  <div class="page-header">
+    <div>
+      <h1>Student Fees</h1>
+      <p>Manage your invoices and payment history.</p>
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="message error-message">{{ errorMessage() }}</div>
+  }
+
+  @if (successMessage()) {
+    <div class="message success-message">{{ successMessage() }}</div>
+  }
+
+  <section class="invoice-summary">
+    <div class="summary-card">
+      <span>Total Invoices</span>
+      <strong>{{ myInvoices().length }}</strong>
+    </div>
+
+    <div class="summary-card">
+      <span>Unpaid Invoices</span>
+      <strong>{{ unpaidInvoices().length }}</strong>
+    </div>
+
+    <div class="summary-card">
+      <span>Paid Invoices</span>
+      <strong>{{ paidInvoices().length }}</strong>
+    </div>
+  </section>
+
+  <section class="create-invoice-section">
+    <h2>Create Invoice</h2>
+
+    <form (ngSubmit)="createInvoice()">
+      <div class="form-group">
+        <label for="description">Invoice Description</label>
+        <input
+          id="description"
+          type="text"
+          name="description"
+          [(ngModel)]="description"
+          placeholder="Enter invoice description"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="amount">Amount (EGP)</label>
+        <input
+          id="amount"
+          type="number"
+          name="amount"
+          [(ngModel)]="amount"
+          min="1"
+          placeholder="Enter amount"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="dueDate">Due Date</label>
+        <input
+          id="dueDate"
+          type="date"
+          name="dueDate"
+          [(ngModel)]="dueDate"
+          required>
+      </div>
+
+      <button type="submit" class="primary-button">
+        Create Invoice
+      </button>
+    </form>
+  </section>
+
+  <section class="invoices-section">
+    <h2>Unpaid Invoices</h2>
+
+    @if (unpaidInvoices().length === 0) {
+      <p class="empty-message">You have no unpaid invoices.</p>
+    } @else {
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Invoice ID</th>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>Issue Date</th>
+              <th>Due Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (invoice of unpaidInvoices(); track invoice.id) {
+              <tr>
+                <td>#{{ invoice.id }}</td>
+                <td>{{ invoice.description }}</td>
+                <td>EGP {{ invoice.amount | number:'1.2-2' }}</td>
+                <td>{{ invoice.issueDate }}</td>
+                <td>{{ invoice.dueDate }}</td>
+                <td>
+                  <button
+                    type="button"
+                    class="pay-button"
+                    (click)="markAsPaid(invoice)">
+                    Mark as Paid
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+  <section class="invoices-section">
+    <h2>Payment History</h2>
+
+    @if (paidInvoices().length === 0) {
+      <p class="empty-message">No completed payments yet.</p>
+    } @else {
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Invoice ID</th>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>Issue Date</th>
+              <th>Due Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (invoice of paidInvoices(); track invoice.id) {
+              <tr>
+                <td>#{{ invoice.id }}</td>
+                <td>{{ invoice.description }}</td>
+                <td>EGP {{ invoice.amount | number:'1.2-2' }}</td>
+                <td>{{ invoice.issueDate }}</td>
+                <td>{{ invoice.dueDate }}</td>
+                <td>
+                  <span class="paid-status">Paid</span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</div>

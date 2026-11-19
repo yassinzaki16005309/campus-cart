@@ -11,8 +11,18 @@
   color: #263449;
 }
 
-/* Header */
+/* Shared card styles */
+.budget__card,
+.budget__chart-card,
+.budget__form-card,
+.budget__table-card {
+  background: #fff;
+  border: 1px solid #e7ebf0;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(30, 50, 80, 0.04);
+}
 
+/* Header */
 .budget__header {
   display: flex;
   justify-content: space-between;
@@ -34,10 +44,14 @@
   font-size: 14px;
 }
 
-.budget__department {
+.budget__department,
+.budget__field {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.budget__department {
   min-width: 190px;
 }
 
@@ -70,7 +84,6 @@
 }
 
 /* Summary cards */
-
 .budget__summary {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -80,24 +93,12 @@
 
 .budget__card {
   padding: 23px;
-  background: #fff;
-  border: 1px solid #e7ebf0;
-  border-radius: 12px;
-  box-shadow: 0 3px 12px rgba(30, 50, 80, 0.04);
   border-left: 4px solid;
 }
 
-.budget__card--income {
-  border-left-color: #259b70;
-}
-
-.budget__card--expenses {
-  border-left-color: #dc5555;
-}
-
-.budget__card--balance {
-  border-left-color: #315b96;
-}
+.budget__card--income { border-left-color: #259b70; }
+.budget__card--expenses { border-left-color: #dc5555; }
+.budget__card--balance { border-left-color: #315b96; }
 
 .budget__card-label {
   margin: 0 0 12px;
@@ -119,8 +120,7 @@
   font-size: 12px;
 }
 
-/* General sections */
-
+/* Sections */
 .budget__section {
   margin-bottom: 34px;
 }
@@ -142,7 +142,6 @@
 }
 
 /* Charts */
-
 .budget__charts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -152,10 +151,6 @@
 .budget__chart-card {
   min-width: 0;
   padding: 22px;
-  background: #fff;
-  border: 1px solid #e7ebf0;
-  border-radius: 12px;
-  box-shadow: 0 3px 12px rgba(30, 50, 80, 0.04);
 }
 
 .budget__chart-card h3 {
@@ -170,14 +165,9 @@
   height: 300px;
 }
 
-/* Add transaction form */
-
+/* Transaction form */
 .budget__form-card {
   padding: 24px;
-  background: #fff;
-  border: 1px solid #e7ebf0;
-  border-radius: 12px;
-  box-shadow: 0 3px 12px rgba(30, 50, 80, 0.04);
 }
 
 .budget__form {
@@ -187,9 +177,6 @@
 }
 
 .budget__field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
   min-width: 0;
 }
 
@@ -221,13 +208,8 @@
 }
 
 /* Transaction table */
-
 .budget__table-card {
   overflow: hidden;
-  background: #fff;
-  border: 1px solid #e7ebf0;
-  border-radius: 12px;
-  box-shadow: 0 3px 12px rgba(30, 50, 80, 0.04);
 }
 
 .budget__table-wrapper {
@@ -308,7 +290,6 @@
 }
 
 /* Responsive design */
-
 @media (max-width: 900px) {
   .budget__summary {
     grid-template-columns: repeat(2, 1fr);
@@ -342,7 +323,8 @@
     gap: 12px;
   }
 
-  .budget__card {
+  .budget__card,
+  .budget__form-card {
     padding: 18px;
   }
 
@@ -360,10 +342,6 @@
 
   .budget__chart {
     height: 260px;
-  }
-
-  .budget__form-card {
-    padding: 18px;
   }
 
   .budget__table th,

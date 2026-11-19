@@ -8,4 +8,5 @@ export interface User {
   pictureUrl: string;
   role: UserRole;
   preferences: string[];
+  creditCardLast4?: string;
 }

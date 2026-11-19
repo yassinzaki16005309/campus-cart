@@ -38,22 +38,27 @@ export class Signup {
 
   signup(): void {
 
-    const success = this.auth.register(
-      {
-        username: this.username,
-        fullName: this.fullName,
-        email: this.email,
-        pictureUrl: this.pictureUrl,
-        role: 'student',
-        preferences: this.preferences
-      },
-      this.password
-    );
+  const cardDigits = this.creditCard.replace(/\D/g, '');
 
-    if (success) {
-      this.router.navigate(['/profile']);
-    } else {
-      this.errorMessage = 'Username or email already exists, or password is invalid.';
-    }
+  const success = this.auth.register(
+    {
+      username: this.username,
+      fullName: this.fullName,
+      email: this.email,
+      pictureUrl: this.pictureUrl,
+      role: 'student',
+      preferences: this.preferences,
+      creditCardLast4: cardDigits.length >= 4
+        ? cardDigits.slice(-4)
+        : undefined
+    },
+    this.password
+  );
+
+  if (success) {
+    this.router.navigate(['/profile']);
+  } else {
+    this.errorMessage = 'Username or email already exists, or password is invalid.';
   }
+}
 }

@@ -1,1 +1,122 @@
-<p>store works!</p>
+
+<div class="store-container">
+  <div class="page-header">
+    <div>
+      <h1>Campus Store</h1>
+      <p>Browse university products and add them to your cart.</p>
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="message error-message">{{ errorMessage() }}</div>
+  }
+
+  @if (successMessage()) {
+    <div class="message success-message">{{ successMessage() }}</div>
+  }
+
+  <div class="store-layout">
+    <section class="products-section">
+      <h2>Products</h2>
+
+      <div class="products-grid">
+        @for (product of products(); track product.id) {
+          <article class="product-card">
+            <div class="product-image">
+              @if (product.imageUrl) {
+                <img [src]="product.imageUrl" [alt]="product.name">
+              } @else {
+                <span>No image available</span>
+              }
+            </div>
+
+            <div class="product-info">
+              <span class="product-category">{{ product.category }}</span>
+              <h3>{{ product.name }}</h3>
+              <p>{{ product.description }}</p>
+
+              <div class="product-details">
+                <strong>EGP {{ product.price | number:'1.2-2' }}</strong>
+                <span>{{ product.stock }} available</span>
+              </div>
+
+              <button
+                type="button"
+                class="add-button"
+                [disabled]="product.stock === 0"
+                (click)="addToCart(product)">
+                {{ product.stock === 0 ? 'Out of Stock' : 'Add to Cart' }}
+              </button>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <aside class="cart-section">
+      <h2>Shopping Cart ({{ cartCount() }})</h2>
+
+      @if (cart().length === 0) {
+        <p class="empty-cart">Your cart is empty.</p>
+      } @else {
+        <div class="cart-items">
+          @for (item of cart(); track item.product.id) {
+            <div class="cart-item">
+              <div class="cart-item-info">
+                <h3>{{ item.product.name }}</h3>
+                <p>EGP {{ item.product.price | number:'1.2-2' }} each</p>
+              </div>
+
+              <div class="quantity-controls">
+                <button type="button" (click)="decreaseQuantity(item.product.id)">−</button>
+                <span>{{ item.quantity }}</span>
+                <button
+                  type="button"
+                  (click)="increaseQuantity(item.product.id)"
+                  [disabled]="item.quantity >= item.product.stock">+</button>
+              </div>
+
+              <button
+                type="button"
+                class="remove-button"
+                (click)="removeFromCart(item.product.id)">
+                Remove
+              </button>
+            </div>
+          }
+        </div>
+
+        <div class="cart-total">
+          <span>Total</span>
+          <strong>EGP {{ cartTotal() | number:'1.2-2' }}</strong>
+        </div>
+
+        <div class="checkout-options">
+          <h3>Payment Method</h3>
+
+          <label>
+            <input
+              type="radio"
+              name="checkoutOption"
+              value="pay-now"
+              [(ngModel)]="checkoutOption">
+            Pay now
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="checkoutOption"
+              value="add-to-invoice"
+              [(ngModel)]="checkoutOption">
+            Add to student fees invoice
+          </label>
+        </div>
+
+        <button type="button" class="checkout-button" (click)="checkout()">
+          Complete Checkout
+        </button>
+      }
+    </aside>
+  </div>
+</div>

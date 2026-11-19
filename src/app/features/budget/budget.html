@@ -12,7 +12,11 @@
 
     <div class="budget__department">
       <label for="department">Department</label>
-      <select id="department" [(ngModel)]="selectedDepartment">
+     <select
+  id="department"
+  [ngModel]="selectedDepartment()"
+  (ngModelChange)="selectedDepartment.set($event)"
+>
         @for (d of departments; track d) {
           <option [value]="d">{{ d }}</option>
         }
@@ -82,7 +86,11 @@
 
         <div class="budget__field">
           <label for="type">Transaction Type</label>
-          <select id="type" [(ngModel)]="newType">
+          <select
+  id="type"
+  [ngModel]="newType()"
+  (ngModelChange)="newType.set($event)"
+>
             <option value="income">Income</option>
             <option value="expense">Expense</option>
           </select>
@@ -95,13 +103,19 @@
             type="number"
             min="0"
             placeholder="Enter amount"
-            [(ngModel)]="newAmount"
+            [ngModel]="newAmount()"
+(ngModelChange)="newAmount.set($event)"
           />
         </div>
 
         <div class="budget__field">
           <label for="date">Date</label>
-          <input id="date" type="date" [(ngModel)]="newDate" />
+         <input
+  id="date"
+  type="date"
+  [ngModel]="newDate()"
+  (ngModelChange)="newDate.set($event)"
+/>
         </div>
 
         <div class="budget__field budget__field--description">
@@ -110,7 +124,8 @@
             id="description"
             type="text"
             placeholder="Enter transaction description"
-            [(ngModel)]="newDescription"
+            [ngModel]="newDescription()"
+(ngModelChange)="newDescription.set($event)"
           />
         </div>
 

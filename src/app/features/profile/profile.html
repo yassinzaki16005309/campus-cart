@@ -34,6 +34,12 @@
           <strong>Email</strong>
           <span>{{ user.email }}</span>
         </div>
+        @if (user.creditCardLast4) {
+  <div class="profile__item">
+    <strong>Credit Card</strong>
+    <span>•••• {{ user.creditCardLast4 }}</span>
+  </div>
+}
 
         <div class="profile__item">
           <strong>Role</strong>

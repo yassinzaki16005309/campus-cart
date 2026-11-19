@@ -18,9 +18,12 @@
       }
 
       @if (auth.hasRole(['admin', 'student'])) {
-        <a routerLink="/store">Store</a>
-        <a routerLink="/student-fees">Student Fees</a>
-      }
+  <a routerLink="/store">Store</a>
+}
+
+@if (auth.hasRole(['admin', 'accountant', 'student'])) {
+  <a routerLink="/student-fees">Student Fees</a>
+}
 
       <button (click)="logout()">Logout</button>
 
